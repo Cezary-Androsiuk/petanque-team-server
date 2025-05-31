@@ -1,23 +1,23 @@
 from flask import Flask, request, jsonify, Response, render_template
 from methods import handle_authenication_request, handle_add_data_request
+from constants import DEBUG
 
 app = Flask(__name__)
 
 @app.route('/api', methods=['POST', 'GET'])
 def handle_request():
-    # print("Request:", request)
-    # print("=======================")
-    # print("Headers:", request.headers)
-    # print("=======================")
-    # print("Data:", request.data)
-    # print("=======================")
-    # print("IP:", request.remote_addr)
-    # print("=======================")
+    print("Request:", request)
+    print("=======================")
+    print("Headers:", request.headers)
+    print("=======================")
+    print("Data:", request.data)
+    print("=======================")
+    print("IP:", request.remote_addr)
+    print("=======================")
 
     user_agent = request.headers.get('User-Agent') == 'PetanqueTeam/1.0'
     content_type = request.headers.get('Content-Type') == 'application/json'
-
-    if user_agent and content_type:
+    if not user_agent or not content_type:
         return jsonify(
             {
                 "status": "error", 
@@ -71,7 +71,7 @@ def template():
 
 if __name__ == '__main__':
     # HTTP
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=DEBUG)
     
     # HTTPS - dummy
     # openssl req -x500 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes

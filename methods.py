@@ -1,5 +1,6 @@
 from flask import Request, jsonify, render_template
 import json
+from constants import DEBUG
 
 example_credentials = {
     'login': 'example login',
@@ -7,7 +8,12 @@ example_credentials = {
 }
 
 def authenticate_credentials(login: str, password_hash: str):
-    return login == example_credentials['login'] and password_hash == example_credentials['password_hash']
+    if DEBUG:
+        correct_login = login == example_credentials['login']
+        correct_password = password_hash == example_credentials['password_hash']
+        return correct_login and correct_password
+    
+    
 
 def handle_authenication_request(json_data, request : Request = None):
     login, password_hash = json_data['login'], json_data['password_hash']
