@@ -43,7 +43,13 @@ def template():
     return render_template('index.html', name='World')
 
 if __name__ == '__main__':
+    # HTTP
     app.run(host='0.0.0.0', port=5000)
+    
+    # HTTPS - dummy
+    # openssl req -x500 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+    # context = ('cert.pem', 'key.pem')
+    # app.run(host='0.0.0.0', port=5000, ssl_context=context)
 
 # python -m venv env
 # env\Scripts\activate
