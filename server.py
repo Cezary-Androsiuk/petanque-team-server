@@ -1,31 +1,58 @@
 from flask import Flask, request, jsonify, Response, render_template
+from methods import handle_authenication_request, handle_add_data_request
 
 app = Flask(__name__)
 
 @app.route('/api', methods=['POST', 'GET'])
 def handle_request():
-    print("Request:", request)
-    print("Headers:", request.headers)
-    print("Data:", request.data)
+    # print("Request:", request)
+    # print("=======================")
+    # print("Headers:", request.headers)
+    # print("=======================")
+    # print("Data:", request.data)
+    # print("=======================")
+    # print("IP:", request.remote_addr)
+    # print("=======================")
 
-    data = None
+    user_agent = request.headers.get('User-Agent') == 'PetanqueTeam/1.0'
+    content_type = request.headers.get('Content-Type') == 'application/json'
+
+    if user_agent and content_type:
+        return jsonify(
+            {
+                "status": "error", 
+                "message": "Unauthorized client"
+            }), 403
+
+    # parse JSON data
+    json_data = None
     try:
-        data = request.get_json()
+        json_data = request.get_json()
     except Exception as e:
-        print("exception: ",e)
+        return jsonify({
+            "status": "error",
+            "message": "Invalid JSON",
+            "details": str(e)
+        }), 400
     
-    if data is None:
-        return "No data received", 400
+    if json_data is None:
+        return jsonify({
+            "status": "error",
+            "message": "Invalid JSON"
+        }), 400
     
-    print("Received request")
 
-    response_data = {
-        "status": "success",
-        "received_data": "" if data is None else data,
-        "message": "Server works!"
-    }
+    action = json_data['action']
+    if action == 'auth':
+        return handle_authenication_request(json_data, request)
+    elif action == 'add_data':
+        return handle_add_data_request(json_data, request);
 
-    return jsonify(response_data), 200
+    return jsonify({
+        "status": "error",
+        "message": "Invalid action"
+    }), 422
+    
 
 @app.route('/')
 def home():
