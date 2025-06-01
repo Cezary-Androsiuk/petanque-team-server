@@ -1,23 +1,24 @@
 from flask import Flask, request, jsonify, Response, render_template
 from methods import handle_authenication_request, handle_add_data_request
 from constants import DEBUG
+import re
+
+from Log import I, W, E, D, R
 
 app = Flask(__name__)
 
 @app.route('/api', methods=['POST', 'GET'])
 def handle_request():
-    print("Request:", request)
-    print("=======================")
-    print("Headers:", request.headers)
-    print("=======================")
-    print("Data:", request.data)
-    print("=======================")
-    print("IP:", request.remote_addr)
-    print("=======================")
+    I(request)
+    I(request.headers)
+    I(request.data)
+    I(request.remote_addr)
+    I(request.environ)
 
     user_agent = request.headers.get('User-Agent') == 'PetanqueTeam/1.0'
     content_type = request.headers.get('Content-Type') == 'application/json'
     if not user_agent or not content_type:
+        W("Unauthorized client")
         return jsonify(
             {
                 "status": "error", 
@@ -29,6 +30,7 @@ def handle_request():
     try:
         json_data = request.get_json()
     except Exception as e:
+        W(f"Invalid JSON, details: ", str(e))
         return jsonify({
             "status": "error",
             "message": "Invalid JSON",
@@ -36,6 +38,7 @@ def handle_request():
         }), 400
     
     if json_data is None:
+        W("Invalid JSON")
         return jsonify({
             "status": "error",
             "message": "Invalid JSON"
@@ -48,6 +51,7 @@ def handle_request():
     elif action == 'add_data':
         return handle_add_data_request(json_data, request);
 
+    W("Invalid action")
     return jsonify({
         "status": "error",
         "message": "Invalid action"
