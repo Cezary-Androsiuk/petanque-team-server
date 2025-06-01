@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, Response, render_template
 from methods import handle_authenication_request, handle_add_data_request
 from constants import DEBUG
-import re
+from time import sleep
 
 from Log import I, W, E, D, R
 
@@ -10,10 +10,12 @@ app = Flask(__name__)
 @app.route('/api', methods=['POST', 'GET'])
 def handle_request():
     I(request)
-    I(request.headers)
+    I(request.headers[0])
     I(request.data)
     I(request.remote_addr)
     I(request.environ)
+
+    sleep(0.5) # speed is not required - brute froce protection and login delay
 
     user_agent = request.headers.get('User-Agent') == 'PetanqueTeam/1.0'
     content_type = request.headers.get('Content-Type') == 'application/json'
