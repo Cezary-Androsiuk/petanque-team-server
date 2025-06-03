@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify, Response, render_template
-from methods import handle_authenication_request, handle_add_data_request
-from constants import DEBUG
 from time import sleep
+import os
+
+from handlers import handle_authenication_request, handle_add_data_request
+from constants import DEBUG
+import utils
+import global_variables
 
 from Log import I, W, E, D, R
 
@@ -62,6 +66,16 @@ def handle_request():
 
 @app.route('/')
 def home():
+    
+    I(utils.files_count_in_data_directory())
+    I(utils.get_newest_data_file(1))
+    I(utils.get_newest_data_file(2))
+    
+    I(global_variables.newest_data)
+    
+    global_variables.newest_data["zawody 1"] = os.path.join('data', 'valid')
+    
+    
     html_content = """
         <html>
             <body>
