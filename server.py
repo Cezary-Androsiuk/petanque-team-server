@@ -14,7 +14,7 @@ app = Flask(__name__)
 @app.route('/api', methods=['POST', 'GET'])
 def handle_request():
     I(request)
-    I(request.headers[0])
+    I(request.headers)
     I(request.data)
     I(request.remote_addr)
     I(request.environ)
