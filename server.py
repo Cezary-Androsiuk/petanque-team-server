@@ -1,79 +1,17 @@
-from flask import Flask, request, jsonify, Response, render_template
-from methods import handle_authenication_request, handle_add_data_request
-from constants import DEBUG
-from time import sleep
+from flask import Flask
+import os
 
-from Log import I, W, E, D, R
+from src.api_routes import api_bp
+from src.webpage_routes import webpage_bp
+
+from src.utils.constants import DEBUG
 
 app = Flask(__name__)
 
-@app.route('/api', methods=['POST', 'GET'])
-def handle_request():
-    I(request)
-    I(request.headers[0])
-    I(request.data)
-    I(request.remote_addr)
-    I(request.environ)
 
-    sleep(0.5) # speed is not required - brute froce protection and login delay
+app.register_blueprint(api_bp)
 
-    user_agent = request.headers.get('User-Agent') == 'PetanqueTeam/1.0'
-    content_type = request.headers.get('Content-Type') == 'application/json'
-    if not user_agent or not content_type:
-        W("Unauthorized client")
-        return jsonify(
-            {
-                "status": "error", 
-                "message": "Unauthorized client"
-            }), 403
-
-    # parse JSON data
-    json_data = None
-    try:
-        json_data = request.get_json()
-    except Exception as e:
-        W(f"Invalid JSON, details: ", str(e))
-        return jsonify({
-            "status": "error",
-            "message": "Invalid JSON",
-            "details": str(e)
-        }), 400
-    
-    if json_data is None:
-        W("Invalid JSON")
-        return jsonify({
-            "status": "error",
-            "message": "Invalid JSON"
-        }), 400
-    
-
-    action = json_data['action']
-    if action == 'auth':
-        return handle_authenication_request(json_data, request)
-    elif action == 'add_data':
-        return handle_add_data_request(json_data, request);
-
-    W("Invalid action")
-    return jsonify({
-        "status": "error",
-        "message": "Invalid action"
-    }), 422
-    
-
-@app.route('/')
-def home():
-    html_content = """
-        <html>
-            <body>
-                <h1>Hello, World!</h1>
-            </body>
-        </html>
-    """
-    return Response(html_content, mimetype='text/html')
-
-@app.route('/template')
-def template():
-    return render_template('index.html', name='World')
+app.register_blueprint(webpage_bp)
 
 if __name__ == '__main__':
     # HTTP

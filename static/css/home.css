@@ -1,0 +1,56 @@
+
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.menu-card {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 400px;
+    min-height: 250px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    gap: 20px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-card h1 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-hidden{
+    visibility: hidden;
+}
+
+.btn:hover {
+    background-color: var(--btn-hover);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}

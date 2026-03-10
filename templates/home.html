@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+
+{% block title %}Strona Główna{% endblock %}
+
+
+{% block content %}
+<div class="main-content">
+    <div class="menu-card">
+        <h1>Petanque Team Web Page</h1>
+        <a href="{{ url_for('webpage.matches') }}" class="btn">Mecze</a>
+        <a href="{{ url_for('webpage.info') }}" class="btn" >Informacje</a>
+        <!-- <a href="{{ url_for('webpage.home') }}" class="btn btn-hidden">---</a> -->
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+/* Przycisk zmiany motywu */
+.theme-toggle {
+    background: transparent; /* Przezroczyste tło, żeby widoczne było tylko SVG */
+    border: none; /* Brak ramki */
+    color: var(--text-color);
+    width: 40px; /* Zmniejszone do 40px, żeby nie wypychało headera na styk */
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+    padding: 0;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}

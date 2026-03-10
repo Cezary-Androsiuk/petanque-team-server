@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pentaque Team - {% block title %}Base.html{% endblock %}</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='icons/PetanqueTeam.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme_toggle.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/theme-toggles@4.10.1/css/classic.min.css">
+
+    {% block stylesheet %}
+    {% endblock %}
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            {% if request.endpoint != 'webpage.home' %}
+                <button onclick="history.back()" class="back-btn">⬅ Cofnij</button>
+            {% endif %}
+        </div>
+        <div class="header-right">
+            {% include 'theme_toggle.html' %}
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        &copy; 2026 Autor Aplikacji. Wszelkie prawa zastrzeżone.
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/theme_toggle.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+</body>
+</html>

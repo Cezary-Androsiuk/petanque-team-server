@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/matches.css') }}">
+{% endblock %}
+
+{% block title %}Lista Meczy{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    
+    <div class="sidebar" id="sidebar">
+        <ul class="match-list">
+            {% for match in matches %}
+            <li class="match-item {% if match.highlighted %}highlighted{% endif %}" data-target="match-table-{{ loop.index }}">
+                {{ match.match_title }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="resizer" id="resizer"></div>
+
+    <div class="content-panel">
+        <div id="placeholder" class="placeholder">
+            Wybierz mecz z listy po lewej stronie.
+        </div>
+        
+        {% for match in matches %}
+        <div id="match-table-{{ loop.index }}" class="match-details" style="display: none;">
+            <h2>Dane dla: {{ match.match_title }}</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Gracz 1</th>
+                        <th>Gracz 2</th>
+                        <th>Wynik</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Zawodnik A</td>
+                        <td>Zawodnik B</td>
+                        <td>3 - 1</td>
+                        <td>Zakończony</td>
+                    </tr>
+                    </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/matches.js') }}"></script>
+{% endblock %}

@@ -1,8 +1,8 @@
 from flask import Request, jsonify, render_template
 import json
-from constants import DEBUG
+from src.utils.constants import DEBUG
 
-from Log import I, W, E, D, R
+from src.utils.Log import I, W, E, D, R
 
 example_credentials = {
     'login': 'example login',
